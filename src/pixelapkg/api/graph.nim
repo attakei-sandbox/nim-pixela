@@ -5,6 +5,7 @@ import strutils
 import "../api_client"
 
 type
+  IDString = string
   Color = enum
     Green = "shibafu",
     Red = "momiji",
@@ -17,7 +18,7 @@ type
     Float = "float",
 
 type Graph* = ref object
-  id: string
+  id: IDString
   name: string
   unit: string
   numtype: NumType
