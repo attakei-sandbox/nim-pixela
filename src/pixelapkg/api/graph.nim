@@ -1,14 +1,27 @@
 ## Module for grapsh of API
 import httpclient
 import json
+import strutils
 import "../api_client"
+
+type
+  Color = enum
+    Green = "shibafu",
+    Red = "momiji",
+    Blue = "sora",
+    Yellow = "ichou",
+    Purple = "ajisai",
+    Black = "kuro",
+  NumType = enum
+    Int = "int",
+    Float = "float",
 
 type Graph* = ref object
   id: string
   name: string
   unit: string
-  numtype: string
-  color: string
+  numtype: NumType
+  color: Color
 
 proc `$`*(g: Graph): string =
   return g.id & " =\t" & g.name
@@ -21,8 +34,8 @@ proc getGraphs*(client: ApiClient): seq[Graph] =
       id: g["id"].getStr(),
       name: g["name"].getStr(),
       unit: g["unit"].getStr(),
-      numtype: g["type"].getStr(),
-      color: g["color"].getStr(),
+      numtype: parseEnum[NumType](g["type"].getStr()),
+      color: parseEnum[Color](g["color"].getStr()),
     )
     graphs.add(graph)
   return graphs
