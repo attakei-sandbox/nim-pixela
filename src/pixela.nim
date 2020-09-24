@@ -1,10 +1,17 @@
 import cligen
-from commands/graph_command import graph
+import commands/graph_command
 
 
 when isMainModule:
-  dispatchMulti(
+  dispatchMultiGen(
+    ["graph"],
     [
-      graph,
+      graph_command.list, doc = "List registered graphs",
+    ],
+  )
+  dispatchMulti(
+    ["multi", usage = clUseMultiPerlish],
+    [
+      graph, doc = "Control graph",
     ],
   )
