@@ -10,3 +10,19 @@ proc list*(): int =
   echo("List of graphs")
   for g in graphs:
     echo("\t", g)
+
+proc create*(
+    id: IDString, 
+    name: string,
+    unit: string,
+    numtype: NumType,
+    color: Color,
+  ): int =
+  ## Create new graph
+  let graph = newGraph(id, name, unit, numtype, color)
+  let apiClient = initApiClient()
+  let resp = apiClient.postGraph(graph)
+  if resp:
+    echo "Added new post"
+  else:
+    echo "Failure"

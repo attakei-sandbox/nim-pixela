@@ -6,12 +6,19 @@ when isMainModule:
   dispatchMultiGen(
     ["graph"],
     [
-      graph_command.list, doc = "List registered graphs",
+      graph_command.list,
+      mergeNames = @["graph list"],
+    ],
+    [
+      graph_command.create,
+      mergeNames = @["graph create"],
     ],
   )
   dispatchMulti(
     ["multi", usage = clUseMultiPerlish],
     [
-      graph, doc = "Control graph",
+      graph,
+      doc = "Control graph",
+      stopWords = @["list", "create"],
     ],
   )

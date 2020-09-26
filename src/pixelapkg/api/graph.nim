@@ -5,15 +5,15 @@ import strutils
 import "../api_client"
 
 type
-  IDString = string
-  Color = enum
+  IDString* = string
+  Color* = enum
     Green = "shibafu",
     Red = "momiji",
     Blue = "sora",
     Yellow = "ichou",
     Purple = "ajisai",
     Black = "kuro",
-  NumType = enum
+  NumType* = enum
     Int = "int",
     Float = "float",
 
@@ -26,6 +26,17 @@ type Graph* = ref object
 
 proc `$`*(g: Graph): string =
   return g.id & " =\t" & g.name
+
+
+proc newGraph*(id: IDString, name: string, unit: string, numtype: NumType, color: Color): Graph =
+  return Graph(
+    id: id,
+    name: name,
+    unit: unit,
+    numtype: numtype,
+    color: color,
+  )
+
 
 proc getGraphs*(client: ApiClient): seq[Graph] =
   let data: JsonNode = client.request(HttpGet, "/graphs")
@@ -40,3 +51,16 @@ proc getGraphs*(client: ApiClient): seq[Graph] =
     )
     graphs.add(graph)
   return graphs
+
+
+proc postGraph*(client: ApiClient, graph: Graph): bool =
+  let body = newJObject()
+  body["id"] = newJString(graph.id)
+  body["name"] = newJString(graph.name)
+  body["unit"] = newJString(graph.unit)
+  body["type"] = newJString($graph.numtype)
+  body["color"] = newJString($graph.color)
+  let data = client.request(HttpPost, "/graphs", $body)
+  result = data["isSuccess"].getBool()
+  if not result:
+    echo(data["message"].getStr())
