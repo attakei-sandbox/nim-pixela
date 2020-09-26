@@ -13,7 +13,7 @@ type
     Yellow = "ichou",
     Purple = "ajisai",
     Black = "kuro",
-  NumType* = enum
+  QuantityType* = enum
     Int = "int",
     Float = "float",
 
@@ -21,19 +21,19 @@ type Graph* = ref object
   id: IDString
   name: string
   unit: string
-  numtype: NumType
+  qtype: QuantityType
   color: Color
 
 proc `$`*(g: Graph): string =
   return g.id & " =\t" & g.name
 
 
-proc newGraph*(id: IDString, name: string, unit: string, numtype: NumType, color: Color): Graph =
+proc newGraph*(id: IDString, name: string, unit: string, qtype: QuantityType, color: Color): Graph =
   return Graph(
     id: id,
     name: name,
     unit: unit,
-    numtype: numtype,
+    qtype: qtype,
     color: color,
   )
 
@@ -46,7 +46,7 @@ proc getGraphs*(client: ApiClient): seq[Graph] =
       id: g["id"].getStr(),
       name: g["name"].getStr(),
       unit: g["unit"].getStr(),
-      numtype: parseEnum[NumType](g["type"].getStr()),
+      qtype: parseEnum[QuantityType](g["type"].getStr()),
       color: parseEnum[Color](g["color"].getStr()),
     )
     graphs.add(graph)
@@ -58,7 +58,7 @@ proc postGraph*(client: ApiClient, graph: Graph): bool =
   body["id"] = newJString(graph.id)
   body["name"] = newJString(graph.name)
   body["unit"] = newJString(graph.unit)
-  body["type"] = newJString($graph.numtype)
+  body["type"] = newJString($graph.qtype)
   body["color"] = newJString($graph.color)
   let data = client.request(HttpPost, "/graphs", $body)
   result = data["isSuccess"].getBool()

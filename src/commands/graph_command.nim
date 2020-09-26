@@ -15,11 +15,11 @@ proc create*(
     id: IDString, 
     name: string,
     unit: string,
-    numtype: NumType,
+    qtype: QuantityType,
     color: Color,
   ): int =
   ## Create new graph
-  let graph = newGraph(id, name, unit, numtype, color)
+  let graph = newGraph(id, name, unit, qtype, color)
   let apiClient = initApiClient()
   let resp = apiClient.postGraph(graph)
   if resp:
