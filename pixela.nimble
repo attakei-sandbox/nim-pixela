@@ -6,8 +6,8 @@ description   = "Pixe.la client (cli and library)"
 license       = "Apache-2.0"
 srcDir        = "src"
 installExt    = @["nim"]
-bin           = @["pixela"]
-
+binDir        = "bin"
+bin           = @["pit"]
 
 
 # Dependencies

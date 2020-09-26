@@ -1,3 +1,5 @@
+bin/
+var/
 
 # Created by https://www.toptal.com/developers/gitignore/api/nim
 # Edit at https://www.toptal.com/developers/gitignore?templates=nim
