@@ -17,9 +17,10 @@ proc create*(
     unit: string,
     qtype: QuantityType,
     color: Color,
+    timezone: string = "UTC",
   ): int =
   ## Create new graph
-  let graph = newGraph(id, name, unit, qtype, color)
+  let graph = newGraph(id, name, unit, qtype, color, timezone)
   let apiClient = initApiClient()
   let resp = apiClient.postGraph(graph)
   if resp:

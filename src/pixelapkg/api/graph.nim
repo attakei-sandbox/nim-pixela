@@ -23,18 +23,26 @@ type Graph* = ref object
   unit: string
   qtype: QuantityType
   color: Color
+  timezone: string
 
 proc `$`*(g: Graph): string =
   return g.id & " =\t" & g.name
 
-
-proc newGraph*(id: IDString, name: string, unit: string, qtype: QuantityType, color: Color): Graph =
+proc newGraph*(
+    id: IDString,
+    name: string,
+    unit: string,
+    qtype: QuantityType,
+    color: Color,
+    timezone: string,
+  ): Graph =
   return Graph(
     id: id,
     name: name,
     unit: unit,
     qtype: qtype,
     color: color,
+    timezone: timezone,
   )
 
 
@@ -48,6 +56,7 @@ proc getGraphs*(client: ApiClient): seq[Graph] =
       unit: g["unit"].getStr(),
       qtype: parseEnum[QuantityType](g["type"].getStr()),
       color: parseEnum[Color](g["color"].getStr()),
+      timezone: g["timezone"].getStr(),
     )
     graphs.add(graph)
   return graphs
@@ -60,6 +69,7 @@ proc postGraph*(client: ApiClient, graph: Graph): bool =
   body["unit"] = newJString(graph.unit)
   body["type"] = newJString($graph.qtype)
   body["color"] = newJString($graph.color)
+  body["timezone"] = newJString(graph.timezone)
   let data = client.request(HttpPost, "/graphs", $body)
   result = data["isSuccess"].getBool()
   if not result:
