@@ -1,5 +1,5 @@
 import times
-import "./core"
+import "../pit/config"
 import "../pixelapkg/api/graph"
 import "../pixelapkg/api/pixel"
 
@@ -17,7 +17,7 @@ proc post*(
     params = newPixelRequest(id, curDate, quantity)
   else:
     params = newPixelRequest(id, date, quantity)
-  let apiClient = initApiClient()
+  let apiClient = getConfig().initApiClient()
   let resp = apiClient.postPixel(params)
   if resp:
     echo "Added new post"

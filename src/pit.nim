@@ -1,9 +1,11 @@
 import cligen
 import commands/graph_command
 import commands/pixel_command
+import "./pit/config"
 
 
 when isMainModule:
+  config.initConfig()
   dispatchMultiGen(
     ["graph"],
     [
