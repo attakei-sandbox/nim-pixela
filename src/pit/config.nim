@@ -1,6 +1,8 @@
 ## Configuration control module for pit
+import logging
 import options
 import os
+import parsecfg
 import "../pixelapkg/api_client"
 
 
@@ -12,9 +14,10 @@ type
 
 
 const
+  ENV_KEY_PITCFG = "PIT_CONFIG"
   ENV_KEY_USER = "PIXELA_USER"
   ENV_KEY_TOKEN = "PIXELA_TOKEN"
-
+  CONFIG_PIXELA_SECTION = "pixela"
 
 var config: Option[Config] = none(Config)
 
@@ -24,6 +27,15 @@ proc initConfig*() =
   if config.isSome:
     return
   var cfg = Config()
+
+  # Load config values from file
+  if existsEnv(ENV_KEY_PITCFG):
+    let filepath = getEnv(ENV_KEY_PITCFG)
+    info("Load config file from " & filepath)
+    let fCfg = parsecfg.loadConfig(filepath)
+    cfg.user = fCfg.getSectionValue(CONFIG_PIXELA_SECTION, "user")
+    cfg.token = fCfg.getSectionValue(CONFIG_PIXELA_SECTION, "token")
+
   # Find values from environments.
   if os.existsEnv(ENV_KEY_USER):
     cfg.user = getEnv(ENV_KEY_USER)
