@@ -22,6 +22,22 @@ const
 var config: Option[Config] = none(Config)
 
 
+proc findConfigFile(): Option[string] =
+  ## Auto find config files
+  ## 
+  ## Order:
+  ## - ``.pit.cfg``
+  ## - ``$HOME/.pit.cfg``
+  let candicates = @[
+    os.getCurrentDir() & os.DirSep & ".pit.cfg",
+    os.getHomeDir() & os.DirSep & ".pit.cfg",
+  ]
+  for c in candicates:
+    if c.existsFile():
+      return some(c)
+  return none(string)
+
+
 proc initConfig*() =
   ## Create config from local file
   if config.isSome:
@@ -32,6 +48,12 @@ proc initConfig*() =
   if existsEnv(ENV_KEY_PITCFG):
     let filepath = getEnv(ENV_KEY_PITCFG)
     info("Load config file from " & filepath)
+    let fCfg = parsecfg.loadConfig(filepath)
+    cfg.user = fCfg.getSectionValue(CONFIG_PIXELA_SECTION, "user")
+    cfg.token = fCfg.getSectionValue(CONFIG_PIXELA_SECTION, "token")
+  elif findConfigFile().isSome():
+    let filepath = findConfigFile().get()
+    echo("Load config file from " & filepath)
     let fCfg = parsecfg.loadConfig(filepath)
     cfg.user = fCfg.getSectionValue(CONFIG_PIXELA_SECTION, "user")
     cfg.token = fCfg.getSectionValue(CONFIG_PIXELA_SECTION, "token")
