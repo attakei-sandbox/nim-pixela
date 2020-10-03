@@ -1,7 +1,7 @@
 ## Module for pixel of API
 import httpclient
 import json
-import "../api_client"
+import "../api"
 import "./graph"
 
 type

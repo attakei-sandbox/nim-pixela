@@ -2,7 +2,7 @@
 import httpclient
 import json
 import strutils
-import "../api_client"
+import "../api"
 
 type
   IDString* = string

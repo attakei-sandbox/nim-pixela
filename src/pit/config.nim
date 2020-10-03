@@ -3,7 +3,7 @@ import logging
 import options
 import os
 import parsecfg
-import "../pixela/api_client"
+import "../pixela/api"
 
 
 type
