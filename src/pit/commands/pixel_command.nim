@@ -1,7 +1,7 @@
 import times
-import "../pit/config"
-import "../pixela/api/graph"
-import "../pixela/api/pixel"
+import "../../pixela/api/graph"
+import "../../pixela/api/pixel"
+import "../config"
 
 
 proc post*(

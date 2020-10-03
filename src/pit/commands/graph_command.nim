@@ -1,5 +1,5 @@
-import "../pixela/api/graph"
-import "../pit/config"
+import "../../pixela/api/graph"
+import "../config"
 
 
 proc list*(): int =
