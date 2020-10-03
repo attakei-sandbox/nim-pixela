@@ -1,4 +1,4 @@
-import "../pixelapkg/api/graph"
+import "../pixela/api/graph"
 import "../pit/config"
 
 

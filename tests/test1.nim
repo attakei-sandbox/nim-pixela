@@ -7,6 +7,6 @@
 
 import unittest
 
-import pixelapkg/submodule
+import pixela/submodule
 test "correct welcome":
   check getWelcomeMessage() == "Hello, World!"
